@@ -240,8 +240,8 @@ if __name__ == '__main__':
     # We add exclude_patterns to stop the server from restarting 
     # when we write to keyvault.db or output folders, solving the previous stability issues.
     app.run(
-        debug=True, 
-        port=5000, 
+        host='0.0.0.0',
+        debug=True,
         exclude_patterns=[
             "keyvault.db", 
             "*.db", 
