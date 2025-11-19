@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Meta tags for character encoding and responsive design -->
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Adaptive-Encryptor</title>
+<!-- Link to external CSS stylesheet -->
+<link rel="stylesheet" href="style.css">
+<!-- Chart.js library for performance visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+</head>
+<body>
+
+<!-- Main dashboard container -->
+<div class="dashboard">
+    <!-- Header with title and tab navigation -->
+    <header>
+        <h1>Adaptive-Parallel-File-Encryptor</h1>
+        <div class="tabs">
+            <!-- Tab buttons to switch between Encrypt, Decrypt, and Compare modes -->
+            <button id="btnTabEncrypt" class="tab-btn active">Encrypt</button>
+            <button id="btnTabDecrypt" class="tab-btn">Decrypt</button>
+            <button id="btnTabCompare" class="tab-btn">Compare</button>
+        </div>
+    </header>
+
+    <!-- Left sidebar with settings panels for each mode -->
+    <aside>
+        <!-- Encryption settings panel -->
+        <div id="settings-encrypt">
+            <h2>Encrypt Settings</h2>
+            <label for="policyEnc"> Policy</label>
+            <select id="policyEnc">
+                <option value="priority">AI-Priority (Optimized)</option>
+                <option value="fifo">Naive-FIFO (Standard)</option>
+            </select>
+            <label for="pwEnc"> Password (Master Key)</label>
+            <input id="pwEnc" type="password" placeholder="Used as Master Key on Server"/>
+            <label for="aesModeEnc"> AES Mode</label>
+            <select id="aesModeEnc">
+                <option value="gcm">AES-GCM (Recommended)</option>
+                <option value="ctr">AES-CTR</option>
+                <option value="cbc">AES-CBC</option>
+            </select>
+            
+            <div class="settings-readout">
+                <h2>Auto-Tuned Settings</h2>
+                <p>Detected on run:</p>
+                <ul>
+                    <li><span id="auto-workers-enc">--</span> Workers</li>
+                    <li><span id="auto-chunk-enc">--</span> MB Chunks</li>
+                </ul>
+            </div>
+            
+            <button id="btnEncrypt" class="btn btn-primary" disabled>🚀 Run Encryption</button>
+        </div>
+
+        <div id="settings-decrypt" class="hidden">
+            <h2>Decrypt Settings</h2>
+            <label for="pwDec"> Password (Master Key)</label>
+            <input id="pwDec" type="password" placeholder="Enter decryption password"/>
+            <label for="pkg"> Encrypted Package (.zip)</label>
+            <input id="pkg" type="file" accept=".zip,application/zip"/>
+            <button id="btnDecrypt" class="btn btn-primary" disabled> Decrypt Package</button>
+        </div>
+
+        <div id="settings-compare" class="hidden">
+            <h2>Compare Settings</h2>
+            <label for="pwCmp"> Password (Master Key)</label>
+            <input id="pwCmp" type="password" placeholder="Used as Master Key on Server"/>
+            <label for="aesModeCmp"> AES Mode</label>
+            <select id="aesModeCmp">
+                <option value="gcm">AES-GCM (Recommended)</option>
+                <option value="ctr">AES-CTR</option>
+                <option value="cbc">AES-CBC</option>
+            </select>
+            
+            <div class="settings-readout">
+                <h2>Auto-Tuned Settings</h2>
+                <p>Detected on run:</p>
+                <ul>
+                    <li><span id="auto-workers-cmp">--</span> Workers</li>
+                    <li><span id="auto-chunk-cmp">--</span> MB Chunks</li>
+                </ul>
+            </div>
+            
+            <button id="btnCompare" class="btn btn-primary" disabled>⚡ Run Comparison</button>
+        </div>
+    </aside>
+
+    <main>
+        <div id="encrypt-page" class="page active">
+            <div class="main-content">
+                <div class="panel panel-files">
+                    <div class="drop-zone" id="drop-enc">
+                        <div class="drop-icon"></div>
+                        <div>Drop files here or click to browse</div>
+                        <input id="files-enc" type="file" multiple style="display:none"/>
+                    </div>
+                    <div id="summary-enc" class="summary hidden"></div>
+                    <div class="file-list" id="fileList-enc"></div>
+                </div>
+                <div class="panel panel-log">
+                    <h2>Log</h2>
+                    <div id="log-enc" class="log">Ready...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="decrypt-page" class="page">
+            <div class="main-content">
+                <div class="panel panel-upload">
+                    <h2>Upload Package</h2>
+                    <p>Select your .zip package and enter the password in the settings panel on the left.</p>
+                </div>
+                <div class="panel panel-log-dec">
+                    <h2>Log</h2>
+                    <div id="log-dec" class="log">Ready for decryption...</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="compare-page" class="page">
+            <div class="main-content">
+                <div class="panel panel-files-cmp">
+                    <div class="drop-zone" id="drop-cmp">
+                        <div class="drop-icon"></div>
+                        <div>Drop files here or click to browse</div>
+                        <input id="files-cmp" type="file" multiple style="display:none"/>
+                    </div>
+                    <div id="summary-cmp" class="summary hidden"></div>
+                    <div class="file-list" id="fileList-cmp"></div>
+                </div>
+                <div class="panel panel-chart">
+                    <h2>Performance</h2>
+                    <canvas id="chart" style="flex-grow: 1;"></canvas>
+                </div>
+                <div class="panel panel-log-cmp">
+                    <h2>Log</h2>
+                    <div id="log-cmp" class="log">Ready...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">Status: Ready</footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
