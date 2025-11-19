@@ -239,18 +239,22 @@ def download_decrypted_file(session_id, filename):
 if __name__ == '__main__':
     # We add exclude_patterns to stop the server from restarting 
     # when we write to keyvault.db or output folders, solving the previous stability issues.
-    app.run(
-        host='0.0.0.0',
-        debug=True,
-        exclude_patterns=[
-            "keyvault.db", 
-            "*.db", 
-            "*.db-journal", 
-            "*.enc", 
-            "*.json", 
-            "*.tmp",
-            "__pycache__",
-            "*/site-packages/*",
-            "*/Lib/*"
-        ]
-    )
+    if __name__ == '__main__':
+        port = int(os.environ.get("PORT", 10000))
+        app.run(
+            host='0.0.0.0',
+            port=port,
+            debug=False,
+            exclude_patterns=[
+                "keyvault.db",
+                "*.db",
+                "*.db-journal",
+                "*.enc",
+                "*.json",
+                "*.tmp",
+                "__pycache__",
+                "*/site-packages/*",
+                "*/Lib/*"
+            ]
+        )
+
